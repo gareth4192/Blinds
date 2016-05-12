@@ -1,7 +1,7 @@
 'use strict';
 
-angular.module('blindsSiteApp')
-  .controller('LoginCtrl', function($scope, Auth, $state) {
+angular.module('meanshopApp')
+  .controller('LoginCtrl', function($scope, Auth, $state, $window) {
     $scope.user = {};
     $scope.errors = {};
 
@@ -23,4 +23,7 @@ angular.module('blindsSiteApp')
       }
     };
 
+    $scope.loginOauth = function(provider) {
+      $window.location.href = '/auth/' + provider;
+    };
   });

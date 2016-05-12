@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('blindsSiteApp')
+angular.module('meanshopApp')
   .directive('footer', function () {
     return {
       templateUrl: 'components/footer/footer.html',

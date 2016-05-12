@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('blindsSiteApp')
+angular.module('meanshopApp')
   .factory('Modal', function ($rootScope, $modal) {
     /**
      * Opens a modal

@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('blindsSiteApp')
+angular.module('meanshopApp')
   .directive('navbar', function () {
     return {
       templateUrl: 'components/navbar/navbar.html',

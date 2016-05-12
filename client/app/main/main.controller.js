@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('blindsSiteApp')
+angular.module('meanshopApp')
   .controller('MainCtrl', function($scope, $http, socket, Product) {
-       $scope.products = Product.query().slice(3);
-});
+    $scope.products = Product.query();
+  });

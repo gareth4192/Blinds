@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('blindsSiteApp')
+angular.module('meanshopApp')
   .controller('NavbarCtrl', function ($scope, Auth) {
     $scope.menu = [{
       'title': 'Home',

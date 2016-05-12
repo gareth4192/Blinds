@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('blindsSiteApp')
+angular.module('meanshopApp')
   .config(function($stateProvider) {
     $stateProvider
       .state('login', {

@@ -1,4 +1,4 @@
-// Generated on 2016-05-09 using generator-angular-fullstack 3.0.0-rc4
+// Generated on 2015-08-21 using generator-angular-fullstack 3.0.0-rc4
 'use strict';
 
 module.exports = function (grunt) {
@@ -55,6 +55,10 @@ module.exports = function (grunt) {
       }
     },
     watch: {
+      babel: {
+        files: ['<%= yeoman.client %>/{app,components}/**/!(*.spec|*.mock).js'],
+        tasks: ['newer:babel:client']
+      },
       injectJS: {
         files: [
           '<%= yeoman.client %>/{app,components}/**/!(*.spec|*.mock).js',
@@ -304,7 +308,7 @@ module.exports = function (grunt) {
     ngtemplates: {
       options: {
         // This should be the name of your apps angular module
-        module: 'blindsSiteApp',
+        module: 'meanshopApp',
         htmlmin: {
           collapseBooleanAttributes: true,
           collapseWhitespace: true,
@@ -398,9 +402,11 @@ module.exports = function (grunt) {
     // Run some tasks in parallel to speed up the build process
     concurrent: {
       server: [
+        'newer:babel:client',
         'sass',
       ],
       test: [
+        'newer:babel:client',
         'sass',
       ],
       debug: {
@@ -413,6 +419,7 @@ module.exports = function (grunt) {
         }
       },
       dist: [
+        'newer:babel:client',
         'sass',
         'imagemin'
       ]
@@ -500,6 +507,21 @@ module.exports = function (grunt) {
       all: localConfig
     },
 
+    // Compiles ES6 to JavaScript using Babel
+    babel: {
+      options: {
+        sourceMap: true
+      },
+      client: {
+        files: [{
+          expand: true,
+          cwd: '<%= yeoman.client %>',
+          src: ['{app,components}/**/!(*.spec).js'],
+          dest: '.tmp'
+        }]
+      }
+    },
+
     // Compiles Sass to CSS
     sass: {
       server: {
@@ -530,7 +552,7 @@ module.exports = function (grunt) {
         files: {
           '<%= yeoman.client %>/index.html': [
                [
-                 '{.tmp,<%= yeoman.client %>}/{app,components}/**/!(*.spec|*.mock).js',
+                 '.tmp/{app,components}/**/!(*.spec|*.mock).js',
                  '!{.tmp,<%= yeoman.client %>}/app/app.js'
                ]
             ]
@@ -630,6 +652,31 @@ module.exports = function (grunt) {
     grunt.task.run(['serve']);
   });
 
+  grunt.registerTask('db', function (target) {
+    if(target === 'clean'){
+      var done = this.async();
+      var config = require('./server/config/environment');
+      var mongoose = require('mongoose');
+
+      mongoose.connect(config.mongo.uri, config.mongo.options, function(err){
+        if(err) {
+          done(err);
+        } else {
+          mongoose.connection.db.dropDatabase(function (err) {
+            if(err) {
+              console.log('Connected to ' + config.mongo.uri);
+              done(err);
+            } else {
+              console.log('Dropped ' + config.mongo.uri);
+              done();
+            }
+          });
+        }
+      });
+    }
+  });
+
+
   grunt.registerTask('test', function(target, option) {
     if (target === 'server') {
       return grunt.task.run([
@@ -670,6 +717,7 @@ module.exports = function (grunt) {
           'clean:server',
           'env:all',
           'env:test',
+          'db:clean',
           'injector:sass',
           'concurrent:test',
           'injector',

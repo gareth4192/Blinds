@@ -8,6 +8,34 @@
 var Thing = require('../api/thing/thing.model');
 var User = require('../api/user/user.model');
 
+var Product = require('../api/product/product.model');
+   Product.find({}).removeAsync()
+     .then(function() {
+       Product.createAsync({
+         title: 'Blind 1',
+         imageUrl: '/assets/uploads/b1.jpg',
+         price: 25,
+         stock: 250,
+         description: 'Vertical'
+        }, {
+        title: 'Blind 2',
+        imageUrl: '/assets/uploads/b2.jpg',
+        price: 15,
+        stock: 100,
+        description: 'Roller'
+        }, {
+        title: 'Blind 4',
+        imageUrl: '/assets/uploads/b3.jpg',
+        price: 8,
+        stock: 50,
+        description: 'Shutter'
+       })
+       .then(function() {
+         console.log('finished populating products');
+       });
+});
+
+
 Thing.find({}).removeAsync()
   .then(function() {
     Thing.create({

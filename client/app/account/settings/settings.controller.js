@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('blindsSiteApp')
+angular.module('meanshopApp')
   .controller('SettingsCtrl', function($scope, User, Auth) {
     $scope.errors = {};
 
