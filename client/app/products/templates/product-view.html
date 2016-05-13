@@ -7,7 +7,7 @@
       <img src="{{product.imageUrl}}" alt="{{product.title}}" width="400" height="400">
       <div class="caption">
         <p>{{product.description}}</p>
-        <p>{{product.price | currency }}</p>
+        <p>{{product.price | currency: "£" }}</p>
         <p>
           <a href="#" class="btn btn-primary" role="button">Buy</a>
           <a ui-sref="products" class="btn btn-default" role="button">Back</a>
