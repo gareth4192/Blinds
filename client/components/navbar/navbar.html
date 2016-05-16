@@ -15,6 +15,7 @@
             <a ui-sref="{{item.state}}">{{item.title}}</a>
         </li>
         <li ng-show="isAdmin()" ui-sref-active="active"><a ui-sref="admin">Admin</a></li>
+        <li ng-show="isAdmin()" ui-sref-active="active"><a ui-sref="newProduct()" style="color:#4393B9">Add Product</a></li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
