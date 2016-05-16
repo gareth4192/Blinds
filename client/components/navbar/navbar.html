@@ -15,8 +15,19 @@
             <a ui-sref="{{item.state}}">{{item.title}}</a>
         </li>
         <li ng-show="isAdmin()" ui-sref-active="active"><a ui-sref="admin">Admin</a></li>
-        <li ng-show="isAdmin()" ui-sref-active="active"><a ui-sref="newProduct()" style="color:#4393B9">Add Product</a></li>
+        <li ng-show="isAdmin()" ui-sref-active="active"><a ui-sref="#">Add product</a></li>
       </ul>
+
+      <!-- search bar -->
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <div class="input-group">
+            <span class="input-group-addon"><span class="fa fa-search"></span></span>
+            <input id="searchBox" type="text" class="form-control input-large" placeholder="Search" ng-model="searchTerm" ng-change="search()" ng-focus="redirect()">
+          </div>
+        </div>
+      </form>
+
 
       <ul class="nav navbar-nav navbar-right">
         <li ng-hide="isLoggedIn()" ui-sref-active="active"><a ui-sref="signup">Sign up</a></li>
@@ -25,11 +36,13 @@
         <li ng-show="isLoggedIn()" ui-sref-active="active"><a ui-sref="settings"><span class="glyphicon glyphicon-cog"></span></a></li>
         <li ng-show="isLoggedIn()"><a ui-sref="logout">Logout</a></li>
         <li>
-           <a ui-sref="checkout">
-             <ngcart-summary template-url="components/ngcart/summary.html"></ngcart-summary>
+          <a ui-sref="checkout">
+            <ngcart-summary template-url="components/ngcart/summary.html"></ngcart-summary>
           </a>
         </li>
       </ul>
+
+
     </div>
   </div>
 </div>

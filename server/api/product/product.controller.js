@@ -11,24 +11,13 @@
 
 var _ = require('lodash');
 var Product = require('./product.model');
-
 var path = require('path');
-
-   function saveFile(res, file) {
-     return function(entity){
-       var newPath = '/assets/uploads/' + path.basename(file.path);
-       entity.imageUrl = newPath;
-       return entity.saveAsync().spread(function(updated) {
-         console.log(updated);
-         return updated;
-       });
-     }
-   }
-
+var Catalog = require('../catalog/catalog.model');
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
   return function(err) {
+    console.error(err, statusCode);
     res.status(statusCode).send(err);
   };
 }
@@ -73,18 +62,23 @@ function removeEntity(res) {
   };
 }
 
-// Uploads a new Product's image in the DB
-exports.upload = function(req, res) {
-  var file = req.files.file;
-  if(!file){
-    return handleError(res)('File not provided');
+function saveFile(res, file) {
+  return function(entity){
+    var newPath = '/assets/uploads/' + path.basename(file.path);
+    entity.imageUrl = newPath;
+    return entity.saveAsync().spread(function(updated) {
+      return updated;
+    });
   }
- Product.findByIdAsync(req.params.id)
-   .then(handleEntityNotFound(res))
-   .then(saveFile(res, file))
-   .then(responseWithResult(res))
-   .catch(handleError(res));
- };
+}
+
+function productsInCategory(catalog) {
+  var catalog_ids = [catalog._id].concat(catalog.children);
+  return Product
+    .find({'categories': { $in: catalog_ids } })
+    .populate('categories')
+    .exec();
+}
 
 // Gets a list of Products
 exports.index = function(req, res) {
@@ -127,3 +121,36 @@ exports.destroy = function(req, res) {
     .then(removeEntity(res))
     .catch(handleError(res));
 };
+
+// Uploads a new Product's image in the DB
+exports.upload = function(req, res) {
+  var file = req.files.file;
+  if(!file){
+    return handleError(res)('File not provided');
+  }
+
+  Product.findByIdAsync(req.params.id)
+    .then(handleEntityNotFound(res))
+    .then(saveFile(res, file))
+    .then(responseWithResult(res))
+    .catch(handleError(res));
+};
+
+exports.catalog = function(req, res) {
+  Catalog
+    .findOne({ slug: req.params.slug })
+    .execAsync()
+    .then(productsInCategory)
+    .then(responseWithResult(res))
+    .catch(handleError(res));
+};
+
+exports.search = function(req, res) {
+  Product
+    .find({ $text: { $search: req.params.term }})
+    .populate('categories')
+    .execAsync()
+    .then(responseWithResult(res))
+    .catch(handleError(res));
+};
+

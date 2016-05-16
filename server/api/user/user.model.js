@@ -3,6 +3,7 @@
 var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 var Schema = mongoose.Schema;
 var crypto = require('crypto');
+var authTypes = ['github', 'twitter', 'facebook', 'google'];
 
 var UserSchema = new Schema({
   name: String,
@@ -16,7 +17,11 @@ var UserSchema = new Schema({
   },
   password: String,
   provider: String,
-  salt: String
+  salt: String,
+  facebook: {},
+  twitter: {},
+  google: {},
+  github: {}
 });
 
 /**
@@ -51,6 +56,9 @@ UserSchema
 UserSchema
   .path('email')
   .validate(function(email) {
+    if (authTypes.indexOf(this.provider) !== -1) {
+      return true;
+    }
     return email.length;
   }, 'Email cannot be blank');
 
@@ -58,6 +66,9 @@ UserSchema
 UserSchema
   .path('password')
   .validate(function(password) {
+    if (authTypes.indexOf(this.provider) !== -1) {
+      return true;
+    }
     return password.length;
   }, 'Password cannot be blank');
 
@@ -92,7 +103,7 @@ UserSchema
   .pre('save', function(next) {
     // Handle new/update passwords
     if (this.isModified('password')) {
-      if (!validatePresenceOf(this.password)) {
+      if (!validatePresenceOf(this.password) && authTypes.indexOf(this.provider) === -1) {
         next(new Error('Invalid password'));
       }
 
