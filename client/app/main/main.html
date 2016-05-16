@@ -1,12 +1,18 @@
 <navbar></navbar>
 
-<header class="hero-unit" id="banner">
+<!-- <header class="hero-unit" id="banner">
   <div class="container">
     <h1>McBlinds</h1>
     <p class="lead">Prevent skin cancer, buy blinds! </p>
-    <!-- <img src="assets/images/logo.png" alt="logo"> -->
+
   </div>
-</header>
+</header> -->
+
+<div class="bg"></div>
+  <div class="jumbotron">
+    <h1>McBlinds</h1>
+    <p class="lead">Prevent skin cancer, buy blinds!</p>
+</div>
 
 <div class="container">
   <div class="row">
@@ -29,5 +35,15 @@
     </div>
   </div>
 </div>
+<script>
+var jumboHeight = $('.jumbotron').outerHeight();
+  function parallax(){
+      var scrolled = $(window).scrollTop();
+      $('.bg').css('height', (jumboHeight-scrolled) + 'px');
+  }
 
+$(window).scroll(function(e){
+    parallax();
+});
+</script>
 <footer></footer>
