@@ -718,6 +718,7 @@ module.exports = function (grunt) {
           'env:all',
           'env:test',
           'db:clean',
+          'db:clean',
           'injector:sass',
           'concurrent:test',
           'injector',
@@ -795,3 +796,5 @@ module.exports = function (grunt) {
     'build'
   ]);
 };
+
+  
