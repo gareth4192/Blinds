@@ -9,3 +9,4 @@ angular.module('meanshopApp')
         controller: 'MainCtrl'
       });
   });
+  
