@@ -1,1 +1,1 @@
-#E-commerce website build using the mean stack
+#E-commerce website built using the mean stack
