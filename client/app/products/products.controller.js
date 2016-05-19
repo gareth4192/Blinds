@@ -18,6 +18,7 @@ angular.module('meanshopApp')
     });
   })
 
+
   .controller('ProductCatalogCtrl', function ($scope, $stateParams, Product) {
     $scope.products = Product.catalog({id: $stateParams.slug});
     $scope.query = $stateParams.slug;

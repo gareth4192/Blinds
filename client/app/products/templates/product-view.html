@@ -18,26 +18,70 @@
             <ngcart-addtocart id="{{product._id}}" name="{{product.title}}" price="{{product.price}}" template-url="components/ngcart/addtocart.html" data="product">BUY</ngcart-addtocart>
             <a ng-show="isAdmin()" ui-sref="editProduct({id: product._id})" class="btn btn-default btn-sm" role="button">EDIT</a>
             <a ng-show="isAdmin()" class="btn btn-default btn-sm" ng-click="deleteProduct()">DELETE</a>
+            <ul class="tab">
+                <li><a href="#" class="tablinks" onclick="openCity(event, 'London')">Customise</a></li>
+            </ul>
           </div>
           <div class="pricetext">{{product.price | currency: "£" }}</div>
         </div>
 
-        <fieldset class="form-group">
-          <label for="width">Width</label>
-          <input type="input" class="form-control" placeholder="Enter Width">
-          <small class="text-muted">Min: # Max: #</small>
-          <br>
-          <label for="drop">Drop</label>
-          <input type="input" class="form-control" placeholder="Enter Drop">
-          <small class="text-muted">Min: # Max: #</small>
-        </fieldset>
+        <div id="London" class="tabcontent">
+                <fieldset class="form-group">
+                  <label for="width">Width</label>
+                  <input type="input" class="form-control" placeholder="Enter Width">
+                  <small class="text-muted">Min: # Max: #</small>
+                  <br>
+                  <label for="drop">Drop</label>
+                  <input type="input" class="form-control" placeholder="Enter Drop">
+                  <small class="text-muted">Min: # Max: #</small>
+                  <br>
+                  <label for="slat_width">Slat Width</label>
+                  <select class="form-control" id="exampleSelect1">
+                    <option>5 inch</option>
+                    <option>3.5 inch</option>
+                  </select>
+                  <label for="controls">Controls</label><br>
+                  <small>Cord</small>
+                  <select class="form-control" name="controls">
+                    <option>Right</option>
+                    <option>Left</option>
+                  </select>
+                  <small>Bunch</small>
+                  <select class="form-control" name="bunch">
+                    <option>Right</option>
+                    <option>Left</option>
+                    <option>Split</option>
+                  </select>
+                </fieldset>
+              </div>
       </div>
 
     </div>
     <form>
 
   </div>
-  
-</div>
 
+</div>
+<script>
+function openCity(evt, cityName) {
+  // Declare all variables
+  var i, tabcontent, tablinks;
+
+  // Get all elements with class="tabcontent" and hide them
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="tablinks" and remove the class "active"
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tabcontent.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+
+  // Show the current tab, and add an "active" class to the link that opened the tab
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+</script>
 <footer></footer>
